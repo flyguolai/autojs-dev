@@ -65,20 +65,8 @@ function checkUIScript(entries: { [name: string]: string }) {
 const entryList = getEntry();
 
 const plugins: any[] = [
-    // new webpack.optimize.UglifyJsPlugin({
-    //     comments:false
-    // })
     new AutoJSUI(checkUIScript(entryList))
 ];
-if (prodEnv) {
-    plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                drop_console: true
-            }
-        })
-    )
-}
 
 const complier = webpack({
     resolveLoader: {
@@ -92,6 +80,7 @@ const complier = webpack({
     resolve: {
         extensions: ['.ts']
     },
+    mode: prodEnv? "production" : "development",
     module: {
         rules: [
             {
